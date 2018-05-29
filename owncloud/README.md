@@ -16,10 +16,9 @@ WARNING:
 
 # Supported tags and respective `Dockerfile` links
 
--	[`10.0.8-apache`, `10.0-apache`, `10-apache`, `apache`, `10.0.8`, `10.0`, `10`, `latest` (*10.0/apache/Dockerfile*)](https://github.com/docker-library/owncloud/blob/2791cbf8de3f9feee62d2f5f4d7a773a7d980986/10.0/apache/Dockerfile)
--	[`10.0.8-fpm`, `10.0-fpm`, `10-fpm`, `fpm` (*10.0/fpm/Dockerfile*)](https://github.com/docker-library/owncloud/blob/2791cbf8de3f9feee62d2f5f4d7a773a7d980986/10.0/fpm/Dockerfile)
--	[`9.1.8-apache`, `9.1-apache`, `9-apache`, `9.1.8`, `9.1`, `9` (*9.1/apache/Dockerfile*)](https://github.com/docker-library/owncloud/blob/5124b27e3a30360672d0c31ad7c7bc952f9802b1/9.1/apache/Dockerfile)
--	[`9.1.8-fpm`, `9.1-fpm`, `9-fpm` (*9.1/fpm/Dockerfile*)](https://github.com/docker-library/owncloud/blob/5124b27e3a30360672d0c31ad7c7bc952f9802b1/9.1/fpm/Dockerfile)
+**No supported tags found!**
+
+It is very likely that `owncloud` does not support the currently selected architecture (`windows-amd64`).
 
 # Quick reference
 
@@ -64,7 +63,7 @@ ownCloud is a self-hosted file sync and share server. It provides access to your
 Starting the ownCloud 8.1 instance listening on port 80 is as easy as the following:
 
 ```console
-$ docker run -d -p 80:80 owncloud:8.1
+$ docker run -d -p 80:80 winamd64/owncloud:8.1
 ```
 
 Then go to http://localhost/ and go through the wizard. By default this container uses SQLite for data storage, but the wizard should allow for connecting to an existing database. Additionally, tags for 6.0, 7.0, or 8.0 are available.
