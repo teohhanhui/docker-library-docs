@@ -23,6 +23,8 @@ WARNING:
 -	[`4.3.17`, `4.3`, `4` (*4.3/4.3.17/debian/Dockerfile*)](https://github.com/plone/plone.docker/blob/f623df367e5f065d07a3c2f6db44c73154fb70c8/4.3/4.3.17/debian/Dockerfile)
 -	[`4.3.17-alpine`, `4.3-alpine`, `4-alpine` (*4.3/4.3.17/alpine/Dockerfile*)](https://github.com/plone/plone.docker/blob/f623df367e5f065d07a3c2f6db44c73154fb70c8/4.3/4.3.17/alpine/Dockerfile)
 
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/plone/badge/icon) (`ppc64le/plone` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/plone/)
+
 # Quick reference
 
 -	**Where to get help**:  
@@ -69,7 +71,7 @@ WARNING:
 This will download and start the latest Plone 5 container, based on [Debian](https://www.debian.org/).
 
 ```console
-$ docker run -p 8080:8080 plone
+$ docker run -p 8080:8080 ppc64le/plone
 ```
 
 This image includes `EXPOSE 8080` (the Plone port), so standard container linking will make it automatically available to the linked containers. Now you can add a Plone Site at http://localhost:8080 - default Zope user and password are `admin/admin`.
@@ -79,14 +81,14 @@ This image includes `EXPOSE 8080` (the Plone port), so standard container linkin
 Start ZEO server
 
 ```console
-$ docker run --name=zeo plone zeoserver
+$ docker run --name=zeo ppc64le/plone zeoserver
 ```
 
 Start 2 Plone clients
 
 ```console
-$ docker run --link=zeo -e ZEO_ADDRESS=zeo:8100 -p 8081:8080 plone
-$ docker run --link=zeo -e ZEO_ADDRESS=zeo:8100 -p 8082:8080 plone
+$ docker run --link=zeo -e ZEO_ADDRESS=zeo:8100 -p 8081:8080 ppc64le/plone
+$ docker run --link=zeo -e ZEO_ADDRESS=zeo:8100 -p 8082:8080 ppc64le/plone
 ```
 
 ### Start Plone in debug mode
@@ -94,7 +96,7 @@ $ docker run --link=zeo -e ZEO_ADDRESS=zeo:8100 -p 8082:8080 plone
 You can also start Plone in debug mode (`fg`) by running
 
 ```console
-$ docker run -p 8080:8080 plone fg
+$ docker run -p 8080:8080 ppc64le/plone fg
 ```
 
 ### Add-ons
@@ -102,7 +104,7 @@ $ docker run -p 8080:8080 plone fg
 You can enable Plone add-ons via the `PLONE_ADDONS` environment variable
 
 ```console
-$ docker run -p 8080:8080 -e PLONE_ADDONS="eea.facetednavigation Products.PloneFormGen" plone
+$ docker run -p 8080:8080 -e PLONE_ADDONS="eea.facetednavigation Products.PloneFormGen" ppc64le/plone
 ```
 
 For more information on how to extend this image with your own custom settings, adding more add-ons, building it or mounting volumes, please refer to our [documentation](https://github.com/plone/plone.docker/blob/master/docs/usage.rst).
@@ -136,13 +138,13 @@ Thanks to [Antonio De Marinis](https://github.com/demarant), [Sven Strack](https
 
 # Image Variants
 
-The `plone` images come in many flavors, each designed for a specific use case.
+The `ppc64le/plone` images come in many flavors, each designed for a specific use case.
 
-## `plone:<version>`
+## `ppc64le/plone:<version>`
 
 This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as the base to build other images off of.
 
-## `plone:alpine`
+## `ppc64le/plone:alpine`
 
 This image is based on the popular [Alpine Linux project](http://alpinelinux.org), available in [the `alpine` official image](https://hub.docker.com/_/alpine). Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
 
