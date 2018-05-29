@@ -18,17 +18,13 @@ WARNING:
 
 ## Simple Tags
 
--	[`0.6.2-stretch`, `0.6-stretch`, `0-stretch`, `stretch` (*stretch/Dockerfile*)](https://github.com/docker-library/julia/blob/3cb2698ed2475db46cc17d5d1cd309626ef87c1c/stretch/Dockerfile)
--	[`0.6.2-jessie`, `0.6-jessie`, `0-jessie`, `jessie` (*jessie/Dockerfile*)](https://github.com/docker-library/julia/blob/3cb2698ed2475db46cc17d5d1cd309626ef87c1c/jessie/Dockerfile)
--	[`0.6.2-windowsservercore-ltsc2016`, `0.6-windowsservercore-ltsc2016`, `0-windowsservercore-ltsc2016`, `windowsservercore-ltsc2016` (*windows/windowsservercore-ltsc2016/Dockerfile*)](https://github.com/docker-library/julia/blob/96d3dd0bf37bf7993c63ec2ff7c786d001c25193/windows/windowsservercore-ltsc2016/Dockerfile)
--	[`0.6.2-windowsservercore-1709`, `0.6-windowsservercore-1709`, `0-windowsservercore-1709`, `windowsservercore-1709` (*windows/windowsservercore-1709/Dockerfile*)](https://github.com/docker-library/julia/blob/96d3dd0bf37bf7993c63ec2ff7c786d001c25193/windows/windowsservercore-1709/Dockerfile)
+
 
 ## Shared Tags
 
 -	`0.6.2`, `0.6`, `0`, `latest`:
-	-	[`0.6.2-stretch` (*stretch/Dockerfile*)](https://github.com/docker-library/julia/blob/3cb2698ed2475db46cc17d5d1cd309626ef87c1c/stretch/Dockerfile)
-	-	[`0.6.2-windowsservercore-ltsc2016` (*windows/windowsservercore-ltsc2016/Dockerfile*)](https://github.com/docker-library/julia/blob/96d3dd0bf37bf7993c63ec2ff7c786d001c25193/windows/windowsservercore-ltsc2016/Dockerfile)
-	-	[`0.6.2-windowsservercore-1709` (*windows/windowsservercore-1709/Dockerfile*)](https://github.com/docker-library/julia/blob/96d3dd0bf37bf7993c63ec2ff7c786d001c25193/windows/windowsservercore-1709/Dockerfile)
+
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/julia/badge/icon) (`arm32v5/julia` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/julia/)
 
 # Quick reference
 
@@ -73,13 +69,13 @@ Julia is a high-level, high-performance dynamic programming language for technic
 Starting the Julia REPL is as easy as the following:
 
 ```console
-$ docker run -it --rm julia
+$ docker run -it --rm arm32v5/julia
 ```
 
 ## Run Julia script from your local directory inside container
 
 ```console
-$ docker run -it --rm -v "$PWD":/usr/myapp -w /usr/myapp julia julia script.jl arg1 arg2
+$ docker run -it --rm -v "$PWD":/usr/myapp -w /usr/myapp arm32v5/julia julia script.jl arg1 arg2
 ```
 
 # License

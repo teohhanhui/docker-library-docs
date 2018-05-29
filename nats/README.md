@@ -18,15 +18,13 @@ WARNING:
 
 ## Simple Tags
 
--	[`1.1.0-linux`, `linux` (*amd64/Dockerfile*)](https://github.com/nats-io/nats-docker/blob/738f7e2cd879f0a2642eb07a12b8303b2b99e68b/amd64/Dockerfile)
--	[`1.1.0-nanoserver`, `nanoserver` (*windows/nanoserver/Dockerfile*)](https://github.com/nats-io/nats-docker/blob/738f7e2cd879f0a2642eb07a12b8303b2b99e68b/windows/nanoserver/Dockerfile)
--	[`1.1.0-windowsservercore`, `windowsservercore` (*windows/windowsservercore/Dockerfile*)](https://github.com/nats-io/nats-docker/blob/738f7e2cd879f0a2642eb07a12b8303b2b99e68b/windows/windowsservercore/Dockerfile)
+
 
 ## Shared Tags
 
 -	`1.1.0`, `latest`:
-	-	[`1.1.0-linux` (*amd64/Dockerfile*)](https://github.com/nats-io/nats-docker/blob/738f7e2cd879f0a2642eb07a12b8303b2b99e68b/amd64/Dockerfile)
-	-	[`1.1.0-nanoserver` (*windows/nanoserver/Dockerfile*)](https://github.com/nats-io/nats-docker/blob/738f7e2cd879f0a2642eb07a12b8303b2b99e68b/windows/nanoserver/Dockerfile)
+
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/nats/badge/icon) (`arm32v5/nats` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v5/job/nats/)
 
 # Quick reference
 
@@ -79,15 +77,15 @@ WARNING:
 # For instance, to run the NATS Server and have it listen on port 4444,
 # you would have to run like this:
 #
-#   docker run -p 4444:4444 nats -p 4444
+#   docker run -p 4444:4444 arm32v5/nats -p 4444
 #
 # Or, if you want to publish the port 4444 as a different port, for example 5555:
 #
-#   docker run -p 5555:4444 nats -p 4444
+#   docker run -p 5555:4444 arm32v5/nats -p 4444
 #
 # Check "docker run" for more information.
 
-$ docker run -d --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats
+$ docker run -d --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 arm32v5/nats
 [INF] Starting nats-server version 1.1.0
 [INF] Git commit [add6d79]
 [INF] Starting http monitor on 0.0.0.0:8222
@@ -101,10 +99,10 @@ $ docker run -d --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats
 # Note that since you are passing arguments, this overrides the CMD section
 # of the Dockerfile, so you need to pass all arguments, including the
 # config file.
-$ docker run -d --name=nats-2 --link nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats -c gnatsd.conf --routes=nats-route://ruser:T0pS3cr3t@nats-main:6222
+$ docker run -d --name=nats-2 --link nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 arm32v5/nats -c gnatsd.conf --routes=nats-route://ruser:T0pS3cr3t@nats-main:6222
 
 # If you want to verify the routes are connected, try this instead:
-$ docker run -d --name=nats-2 --link nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats -c gnatsd.conf --routes=nats-route://ruser:T0pS3cr3t@nats-main:6222 -DV
+$ docker run -d --name=nats-2 --link nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 arm32v5/nats -c gnatsd.conf --routes=nats-route://ruser:T0pS3cr3t@nats-main:6222 -DV
 [INF] Starting nats-server version 1.1.0
 [DBG] Go build version go1.9.4
 [INF] Git commit [add6d79]
@@ -199,23 +197,6 @@ Common Options:
     -v, --version                    Show version
         --help_tls                   TLS help
 ```
-
-# Image Variants
-
-The `nats` images come in many flavors, each designed for a specific use case.
-
-## `nats:<version>`
-
-This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as the base to build other images off of.
-
-## `nats:windowsservercore`
-
-This image is based on [Windows Server Core (`microsoft/windowsservercore`)](https://hub.docker.com/r/microsoft/windowsservercore/). As such, it only works in places which that image does, such as Windows 10 Professional/Enterprise (Anniversary Edition) or Windows Server 2016.
-
-For information about how to get Docker running on Windows, please see the relevant "Quick Start" guide provided by Microsoft:
-
--	[Windows Server Quick Start](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_server)
--	[Windows 10 Quick Start](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_10)
 
 # License
 
