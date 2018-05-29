@@ -19,6 +19,8 @@ WARNING:
 -	[`3.5.0-apache`, `3.5-apache`, `3-apache`, `apache`, `3.5.0`, `3.5`, `3`, `latest` (*apache/Dockerfile*)](https://github.com/matomo-org/docker/blob/edd76a3640e34e8318f7dbb08b4875838cb83e0c/apache/Dockerfile)
 -	[`3.5.0-fpm`, `3.5-fpm`, `3-fpm`, `fpm` (*fpm/Dockerfile*)](https://github.com/matomo-org/docker/blob/edd76a3640e34e8318f7dbb08b4875838cb83e0c/fpm/Dockerfile)
 
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/matomo/badge/icon) (`arm32v7/matomo` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/arm32v7/job/matomo/)
+
 # Quick reference
 
 -	**Where to get help**:  
