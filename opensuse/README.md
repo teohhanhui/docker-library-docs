@@ -27,6 +27,8 @@ The opensuse:tumbleweed image is no longer updated, please use [`opensuse/tumble
 -	[`42.3`, `latest`, `leap` (*x86_64//Dockerfile*)](https://github.com/openSUSE/docker-containers-build/blob/0611a04c49ad2d19cf4765455549e028f8a8015d/x86_64//Dockerfile)
 -	[`tumbleweed` (*x86_64//Dockerfile*)](https://github.com/openSUSE/docker-containers-build/blob/2b8e47140b2a964ac827d17d4b5edd52ee22997d/x86_64//Dockerfile)
 
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/opensuse/badge/icon) (`amd64/opensuse` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/opensuse/)
+
 # Quick reference
 
 -	**Where to get help**:  
