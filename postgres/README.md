@@ -27,6 +27,8 @@ WARNING:
 -	[`9.3.23`, `9.3` (*9.3/Dockerfile*)](https://github.com/docker-library/postgres/blob/fe89a60c9bda1f1e1627f6732fdfd90f4d410bd6/9.3/Dockerfile)
 -	[`9.3.23-alpine`, `9.3-alpine` (*9.3/alpine/Dockerfile*)](https://github.com/docker-library/postgres/blob/fe89a60c9bda1f1e1627f6732fdfd90f4d410bd6/9.3/alpine/Dockerfile)
 
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/postgres/badge/icon) (`arm64v8/postgres` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/postgres/)
+
 # Quick reference
 
 -	**Where to get help**:  
@@ -70,7 +72,7 @@ PostgreSQL implements the majority of the SQL:2011 standard, is ACID-compliant a
 ## start a postgres instance
 
 ```console
-$ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+$ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d arm64v8/postgres
 ```
 
 This image includes `EXPOSE 5432` (the postgres port), so standard container linking will make it automatically available to the linked containers. The default `postgres` user and database are created in the entrypoint with `initdb`.
@@ -88,7 +90,7 @@ $ docker run --name some-app --link some-postgres:postgres -d application-that-u
 ## ... or via `psql`
 
 ```console
-$ docker run -it --rm --link some-postgres:postgres postgres psql -h postgres -U postgres
+$ docker run -it --rm --link some-postgres:postgres arm64v8/postgres psql -h postgres -U postgres
 psql (9.5.0)
 Type "help" for help.
 
@@ -166,7 +168,7 @@ This optional environment variable can be used to define another location for th
 As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from Docker secrets stored in `/run/secrets/<secret_name>` files. For example:
 
 ```console
-$ docker run --name some-postgres -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres-passwd -d postgres
+$ docker run --name some-postgres -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres-passwd -d arm64v8/postgres
 ```
 
 Currently, this is only supported for `POSTGRES_INITDB_ARGS`, `POSTGRES_PASSWORD`, `POSTGRES_USER`, and `POSTGRES_DB`.
@@ -178,11 +180,11 @@ As of [docker-library/postgres#253](https://github.com/docker-library/postgres/p
 The main caveat to note is that `postgres` doesn't care what UID it runs as (as long as the owner of `/var/lib/postgresql/data` matches), but `initdb` *does* care (and needs the user to exist in `/etc/passwd`):
 
 ```console
-$ docker run -it --rm --user www-data postgres
+$ docker run -it --rm --user www-data arm64v8/postgres
 The files belonging to this database system will be owned by user "www-data".
 ...
 
-$ docker run -it --rm --user 1000:1000 postgres
+$ docker run -it --rm --user 1000:1000 arm64v8/postgres
 initdb: could not look up effective user ID 1000: user does not exist
 ```
 
@@ -193,7 +195,7 @@ The three easiest ways to get around this:
 2.	bind-mount `/etc/passwd` read-only from the host (if the UID you desire is a valid user on your host):
 
 	```console
-	$ docker run -it --rm --user "$(id -u):$(id -g)" -v /etc/passwd:/etc/passwd:ro postgres
+	$ docker run -it --rm --user "$(id -u):$(id -g)" -v /etc/passwd:/etc/passwd:ro arm64v8/postgres
 	The files belonging to this database system will be owned by user "jsmith".
 	...
 	```
@@ -202,12 +204,12 @@ The three easiest ways to get around this:
 
 	```console
 	$ docker volume create pgdata
-	$ docker run -it --rm -v pgdata:/var/lib/postgresql/data postgres
+	$ docker run -it --rm -v pgdata:/var/lib/postgresql/data arm64v8/postgres
 	The files belonging to this database system will be owned by user "postgres".
 	...
 	( once it's finished initializing successfully and is waiting for connections, stop it )
 	$ docker run -it --rm -v pgdata:/var/lib/postgresql/data bash chown -R 1000:1000 /var/lib/postgresql/data
-	$ docker run -it --rm --user 1000:1000 -v pgdata:/var/lib/postgresql/data postgres
+	$ docker run -it --rm --user 1000:1000 -v pgdata:/var/lib/postgresql/data arm64v8/postgres
 	LOG:  database system was shut down at 2017-01-20 00:03:23 UTC
 	LOG:  MultiXact member wraparound protections are now enabled
 	LOG:  autovacuum launcher started
@@ -238,7 +240,7 @@ Additionally, as of [docker-library/postgres#253](https://github.com/docker-libr
 You can also extend the image with a simple `Dockerfile` to set a different locale. The following example will set the default locale to `de_DE.utf8`:
 
 ```dockerfile
-FROM postgres:9.4
+FROM arm64v8/postgres:9.4
 RUN localedef -i de_DE -c -f UTF-8 -A /usr/share/locale/locale.alias de_DE.UTF-8
 ENV LANG de_DE.utf8
 ```
@@ -260,13 +262,13 @@ There are many ways to set PostgreSQL server configuration. For information on w
 	$ # customize the config
 
 	$ # run postgres with custom config
-	$ docker run -d --name some-postgres -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+	$ docker run -d --name some-postgres -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf arm64v8/postgres -c 'config_file=/etc/postgresql/postgresql.conf'
 	```
 
 -	Set options directly on the run line. The entrypoint script is made so that any options passed to the docker command will be passed along to the `postgres` server daemon. From the [docs](https://www.postgresql.org/docs/current/static/app-postgres.html) we see that any option available in a `.conf` file can be set via `-c`.
 
 	```console
-	$ docker run -d --name some-postgres postgres -c 'shared_buffers=256MB' -c 'max_connections=200'
+	$ docker run -d --name some-postgres arm64v8/postgres -c 'shared_buffers=256MB' -c 'max_connections=200'
 	```
 
 ## Additional Extensions
@@ -281,13 +283,13 @@ If there is no database when `postgres` starts in a container, then `postgres` w
 
 # Image Variants
 
-The `postgres` images come in many flavors, each designed for a specific use case.
+The `arm64v8/postgres` images come in many flavors, each designed for a specific use case.
 
-## `postgres:<version>`
+## `arm64v8/postgres:<version>`
 
 This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as the base to build other images off of.
 
-## `postgres:alpine`
+## `arm64v8/postgres:alpine`
 
 This image is based on the popular [Alpine Linux project](http://alpinelinux.org), available in [the `alpine` official image](https://hub.docker.com/_/alpine). Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
 

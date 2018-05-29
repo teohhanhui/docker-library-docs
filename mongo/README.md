@@ -18,24 +18,21 @@ WARNING:
 
 ## Simple Tags
 
--	[`3.2.20-jessie`, `3.2-jessie` (*3.2/Dockerfile*)](https://github.com/docker-library/mongo/blob/753d566a83a4e9734227f186e554c87b4f08be51/3.2/Dockerfile)
--	[`3.4.15-jessie`, `3.4-jessie` (*3.4/Dockerfile*)](https://github.com/docker-library/mongo/blob/f77d645e749bdda0740a35c00213baae8859edf2/3.4/Dockerfile)
--	[`3.6.5-jessie`, `3.6-jessie`, `3-jessie`, `jessie` (*3.6/Dockerfile*)](https://github.com/docker-library/mongo/blob/4e9a69f44326f034efa79ded2275ec856673bee1/3.6/Dockerfile)
+
 -	[`3.7.9-xenial`, `3.7-xenial`, `unstable-xenial` (*3.7/Dockerfile*)](https://github.com/docker-library/mongo/blob/de4376792e103d35e9b16a023c4046d17cf15f22/3.7/Dockerfile)
 -	[`4.0.0-rc0-xenial`, `4.0-rc-xenial`, `rc-xenial` (*4.0-rc/Dockerfile*)](https://github.com/docker-library/mongo/blob/de4376792e103d35e9b16a023c4046d17cf15f22/4.0-rc/Dockerfile)
 
 ## Shared Tags
 
 -	`3.2.20`, `3.2`:
-	-	[`3.2.20-jessie` (*3.2/Dockerfile*)](https://github.com/docker-library/mongo/blob/753d566a83a4e9734227f186e554c87b4f08be51/3.2/Dockerfile)
 -	`3.4.15`, `3.4`:
-	-	[`3.4.15-jessie` (*3.4/Dockerfile*)](https://github.com/docker-library/mongo/blob/f77d645e749bdda0740a35c00213baae8859edf2/3.4/Dockerfile)
 -	`3.6.5`, `3.6`, `3`, `latest`:
-	-	[`3.6.5-jessie` (*3.6/Dockerfile*)](https://github.com/docker-library/mongo/blob/4e9a69f44326f034efa79ded2275ec856673bee1/3.6/Dockerfile)
 -	`3.7.9`, `3.7`, `unstable`:
 	-	[`3.7.9-xenial` (*3.7/Dockerfile*)](https://github.com/docker-library/mongo/blob/de4376792e103d35e9b16a023c4046d17cf15f22/3.7/Dockerfile)
 -	`4.0.0-rc0`, `4.0-rc`, `rc`:
 	-	[`4.0.0-rc0-xenial` (*4.0-rc/Dockerfile*)](https://github.com/docker-library/mongo/blob/de4376792e103d35e9b16a023c4046d17cf15f22/4.0-rc/Dockerfile)
+
+[![Build Status](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/mongo/badge/icon) (`arm64v8/mongo` build job)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/mongo/)
 
 # Quick reference
 
@@ -80,7 +77,7 @@ First developed by the software company 10gen (now MongoDB Inc.) in October 2007
 ## Start a `mongo` server instance
 
 ```console
-$ docker run --name some-mongo -d mongo:tag
+$ docker run --name some-mongo -d arm64v8/mongo:tag
 ```
 
 ... where `some-mongo` is the name you want to assign to your container and tag is the tag specifying the MongoDB version you want. See the list above for relevant tags.
@@ -90,7 +87,7 @@ $ docker run --name some-mongo -d mongo:tag
 The MongoDB server in the image listens on the standard MongoDB port, `27017`, so connecting via container linking or Docker networks will be the be the same as connecting to a remote `mongod`. The following example starts another MongoDB container instance and runs the `mongo` command line client against the original MongoDB container from the example above, allowing you to execute MongoDB statements against your database instance:
 
 ```console
-$ docker run -it --link some-mongo:mongo --rm mongo mongo --host mongo test
+$ docker run -it --link some-mongo:mongo --rm arm64v8/mongo mongo --host mongo test
 ```
 
 ... where `some-mongo` is the name of your original `mongo` container.
@@ -128,7 +125,7 @@ Run `docker stack deploy -c stack.yml mongo` (or `docker-compose -f stack.yml up
 
 ## Container shell access and viewing MongoDB logs
 
-The `docker exec` command allows you to run commands inside a Docker container. The following command line will give you a bash shell inside your `mongo` container:
+The `docker exec` command allows you to run commands inside a Docker container. The following command line will give you a bash shell inside your `arm64v8/mongo` container:
 
 ```console
 $ docker exec -it some-mongo bash
@@ -149,7 +146,7 @@ See the [MongoDB manual](https://docs.mongodb.com/manual/) for information on us
 Most MongoDB configuration can be set through flags to `mongod`. The entrypoint of the image is created to pass its arguments along to `mongod`. See below an example of setting MongoDB to use a [smaller default file size](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-smallfiles) via `docker run`.
 
 ```console
-$ docker run --name some-mongo -d mongo --smallfiles
+$ docker run --name some-mongo -d arm64v8/mongo --smallfiles
 ```
 
 And here is the same with a `docker-compose.yml` file
@@ -158,24 +155,24 @@ And here is the same with a `docker-compose.yml` file
 version: '3.1'
 services:
   mongo:
-    image: mongo
+    image: arm64v8/mongo
     command: --smallfiles
 ```
 
 To see the full list of possible options, check the MonogDB manual on [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/) or check the `--help` output of `mongod`:
 
 ```console
-$ docker run -it --rm mongo --help
+$ docker run -it --rm arm64v8/mongo --help
 ```
 
 ## Using a custom MongoDB configuration file
 
-For a more complicated configuration setup, you can still use the MongoDB configuration file. `mongod` does not read a configuration file by default, so the `--config` option with the path to the configuration file needs to be specified. Create a custom configuration file and put it in the container by either creating a custom Dockerfile `FROM mongo` or mounting it from the host machine to the container. See the MongoDB manual for a full list of [configuration file](https://docs.mongodb.com/manual/reference/configuration-options/) options.
+For a more complicated configuration setup, you can still use the MongoDB configuration file. `mongod` does not read a configuration file by default, so the `--config` option with the path to the configuration file needs to be specified. Create a custom configuration file and put it in the container by either creating a custom Dockerfile `FROM arm64v8/mongo` or mounting it from the host machine to the container. See the MongoDB manual for a full list of [configuration file](https://docs.mongodb.com/manual/reference/configuration-options/) options.
 
 For example, `/my/custom/mongod.conf` is the path to the custom configuration file. Then start the MongoDB container like the following:
 
 ```console
-$ docker run --name some-mongo -v /my/custom:/etc/mongo -d mongo --config /etc/mongo/mongod.conf
+$ docker run --name some-mongo -v /my/custom:/etc/mongo -d arm64v8/mongo --config /etc/mongo/mongod.conf
 ```
 
 ## Environment Variables
@@ -187,9 +184,9 @@ When you start the `mongo` image, you can adjust the initialization of the Mongo
 These variables, used in conjunction, create a new user and set that user's password. This user is created in the `admin` authentication database and given the role of `root`. Both variables are required for a user to be created. If both are present then MongoDB will start with authentication enabled: `mongod --auth`. Authentication in MongoDB is fairly complex, so more complex user setup is explicitly left to the user via `/docker-entrypoint-initdb.d/` (see *Initializing a fresh instance* below). The following is an example of using these two variables to create a MongoDB instance and then using the `mongo` cli to connect against the `admin` authentication database.
 
 ```console
-$ docker run -d --name some-mongo -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+$ docker run -d --name some-mongo -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret arm64v8/mongo
 
-$ docker run -it --rm --link some-mongo:mongo mongo mongo --host mongo -u mongoadmin -p secret --authenticationDatabase admin some-db
+$ docker run -it --rm --link some-mongo:mongo arm64v8/mongo mongo --host mongo -u mongoadmin -p secret --authenticationDatabase admin some-db
 > db.getName();
 some-db
 ```
@@ -205,7 +202,7 @@ This variable allows you to specify the name of a database to be used for creati
 As an alternative to passing sensitive information via environment variables, `_FILE` may be appended to the previously listed environment variables, causing the initialization script to load the values for those variables from files present in the container. In particular, this can be used to load passwords from Docker secrets stored in `/run/secrets/<secret_name>` files. For example:
 
 ```console
-$ docker run --name some-mongo -e MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo-root -d mongo
+$ docker run --name some-mongo -e MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo-root -d arm64v8/mongo
 ```
 
 Currently, this is only supported for `MONGO_INITDB_ROOT_USERNAME` and `MONGO_INITDB_ROOT_PASSWORD`.
@@ -231,7 +228,7 @@ The Docker documentation is a good starting point for understanding the differen
 2.	Start your `mongo` container like this:
 
 	```console
-	$ docker run --name some-mongo -v /my/own/datadir:/data/db -d mongo
+	$ docker run --name some-mongo -v /my/own/datadir:/data/db -d arm64v8/mongo
 	```
 
 The `-v /my/own/datadir:/data/db` part of the command mounts the `/my/own/datadir` directory from the underlying host system as `/data/db` inside the container, where MongoDB by default will write its data files.
